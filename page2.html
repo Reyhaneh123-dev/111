@@ -1,0 +1,78 @@
+<!-- ذخیره با نام: page2.html -->
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صفحه پروفایل</title>
+<style>
+body {
+    font-family: 'Tahoma', sans-serif;
+    background:#e3f2fd;
+    color:#222;
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+.profile-container {
+    text-align:center;
+}
+.profile-img {
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    background:#ccc;
+    display:inline-block;
+    cursor:pointer;
+    font-size:50px;
+    line-height:120px;
+}
+input, button { margin:10px; padding:8px; font-size:16px; width:200px; text-align:center; }
+</style>
+</head>
+<body>
+<h1>پروفایل شما</h1>
+<div class="profile-container">
+  <div class="profile-img" id="profileImg" onclick="editProfile()">👤</div>
+  <input id="nameInput" type="text" placeholder="نام خود را وارد کنید">
+  <input id="familyInput" type="text" placeholder="نام خانوادگی خود را وارد کنید">
+  <button onclick="enterNext()">ورود</button>
+  <div id="profileData" style="margin-top:20px;"></div>
+</div>
+
+<script>
+function editProfile() {
+  let fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*';
+  fileInput.onchange = e => {
+    let img = document.getElementById('profileImg');
+    let reader = new FileReader();
+    reader.onload = function(){
+      img.innerHTML = '';
+      img.style.backgroundImage = `url(${reader.result})`;
+      img.style.backgroundSize = 'cover';
+    }
+    reader.readAsDataURL(e.target.files[0]);
+  }
+  fileInput.click();
+}
+
+function enterNext() {
+  let name = document.getElementById('nameInput').value.trim();
+  let family = document.getElementById('familyInput').value.trim();
+  if(!name || !family){
+    alert('لطفاً نام و نام خانوادگی را وارد کنید.');
+    return;
+  }
+  // ذخیره اطلاعات پروفایل
+  localStorage.setItem('profileName', name);
+  localStorage.setItem('profileFamily', family);
+  window.location.href = 'page3.html';
+}
+</script>
+</body>
+</html>
